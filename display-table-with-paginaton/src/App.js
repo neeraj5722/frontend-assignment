@@ -1,5 +1,4 @@
 
-import './App.css';
 import DisplayTableWithPagination from './DisplayTableWithPatgination.jsx';
 
 function App() {

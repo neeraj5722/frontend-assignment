@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const DisplayTableWithPagination = () => {
+const AxiosData = () => {
   const [data, setData] = useState([]); // Holds the fetched data
   const [currentPage, setCurrentPage] = useState(1); // Tracks the current page
   const [itemsPerPage] = useState(5); // Number of items per page
@@ -31,29 +31,17 @@ const DisplayTableWithPagination = () => {
   // Calculate total number of pages
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  // Generate pagination buttons
-  const renderPagination = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          style={{
-            margin: "0 5px",
-            padding: "5px 10px",
-            backgroundColor: currentPage === i ? "#007bff" : "#f1f1f1",
-            color: currentPage === i ? "#fff" : "#000",
-            border: "none",
-            borderRadius: "3px",
-            cursor: "pointer",
-          }}
-        >
-          {i}
-        </button>
-      );
+  // Handle navigation buttons
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
     }
-    return pages;
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
@@ -95,10 +83,42 @@ const DisplayTableWithPagination = () => {
       </table>
 
       <div style={{ textAlign: "center", marginTop: "20px" }}>
-        {renderPagination()}
+        <button
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+          style={{
+            margin: "0 5px",
+            padding: "5px 10px",
+            backgroundColor: currentPage === 1 ? "#ccc" : "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "3px",
+            cursor: currentPage === 1 ? "not-allowed" : "pointer",
+          }}
+        >
+          Previous
+        </button>
+        <span className="spans">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          style={{
+            margin: "0 5px",
+            padding: "5px 10px",
+            backgroundColor: currentPage === totalPages ? "#ccc" : "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "3px",
+            cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+          }}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
 };
 
-export default DisplayTableWithPagination;
+export default AxiosData;
